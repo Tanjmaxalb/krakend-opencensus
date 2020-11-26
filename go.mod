@@ -1,4 +1,4 @@
-module github.com/devopsfaith/krakend-opencensus
+module github.com/tanjmaxalb/krakend-opencensus
 
 go 1.13
 
