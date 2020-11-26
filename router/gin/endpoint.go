@@ -63,7 +63,7 @@ func (h *handler) HandlerFunc(c *gin.Context) {
 	traceEnd()
 }
 
-func (h *handler) startTrace(_ gin.ResponseWriter, r *http.Request) (*http.Request, func()) {
+func (h *handler) startTrace(w gin.ResponseWriter, r *http.Request) (*http.Request, func()) {
 	ctx := r.Context()
 	var span *trace.Span
 	sc, ok := h.extractSpanContext(r)
@@ -81,6 +81,7 @@ func (h *handler) startTrace(_ gin.ResponseWriter, r *http.Request) (*http.Reque
 		}
 	}
 	span.AddAttributes(requestAttrs(r)...)
+	span.AddAttributes(responseAttrs(w)...)
 	return r.WithContext(ctx), span.End
 }
 
@@ -117,8 +118,8 @@ func requestAttrs(r *http.Request) []trace.Attribute {
 	}
 }
 
-func responseAttrs(resp *http.Response) []trace.Attribute {
+func responseAttrs(w gin.ResponseWriter) []trace.Attribute {
 	return []trace.Attribute{
-		trace.Int64Attribute(ochttp.StatusCodeAttribute, int64(resp.StatusCode)),
+		trace.Int64Attribute(ochttp.StatusCodeAttribute, int64(w.Status())),
 	}
 }
