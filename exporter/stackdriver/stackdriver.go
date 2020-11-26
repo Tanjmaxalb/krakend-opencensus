@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"contrib.go.opencensus.io/exporter/stackdriver"
-	opencensus "github.com/devopsfaith/krakend-opencensus"
+	opencensus "github.com/tanjmaxalb/krakend-opencensus"
 )
 
 func init() {
